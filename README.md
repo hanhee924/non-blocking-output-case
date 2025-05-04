@@ -1,4 +1,4 @@
-# subprocess의 기능 중 하나인 read()를 non-blocking로 호출한 케이스
+# non-blocking-output-case
 
 - 기본적으로 C++ 파일을 테스트하기 위해 개발되었습니다.
 - C++의 cin와 cout 버퍼를 비우지 않아도(flush) 적절히 출력 내용을 확인할 수 있습니다.
