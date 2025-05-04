@@ -16,8 +16,9 @@ clock_thread = None
 
 def read_output(process: Popen):
     global stop_flag, cur_line, cur_output_last_time, outputting
+    
     outputting = True
-
+    
     while not stop_flag:
         char = process.stdout.read(1)
 
@@ -44,9 +45,8 @@ def clock():
             outputting = True
 
 def start_observation(args):
-    global read_output_thread
-    global clock_thread
-
+    global read_output_thread,clock_thread
+    
     process = Popen(
         args,
         stdin=PIPE,
@@ -79,6 +79,7 @@ def write(process: Popen, data: str):
 
 def exit(process: Popen):
     global stop_flag
+    
     stop_flag = True
     process.terminate()
     process.wait()
