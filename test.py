@@ -16,9 +16,8 @@ clock_thread = None
 
 def read_output(process: Popen):
     global stop_flag, cur_line, cur_output_last_time, outputting
-    
     outputting = True
-    
+
     while not stop_flag:
         char = process.stdout.read(1)
 
@@ -36,8 +35,8 @@ def clock():
         cur_line_interval = cur_line.getvalue()
         
         if time.time() - cur_output_last_time > 0.3 or cur_line_interval.find('\n') != -1:
-            if len(cur_line.getvalue()) > 0:
-                lines.put(cur_line.getvalue().rstrip('\n'))
+            if len(cur_line_interval) > 0:
+                lines.put(cur_line_interval.rstrip('\n'))
                 cur_line.seek(0)
                 cur_line.truncate(0)
                 outputting = False
@@ -45,8 +44,9 @@ def clock():
             outputting = True
 
 def start_observation(args):
-    global read_output_thread,clock_thread
-    
+    global read_output_thread
+    global clock_thread
+
     process = Popen(
         args,
         stdin=PIPE,
@@ -79,14 +79,13 @@ def write(process: Popen, data: str):
 
 def exit(process: Popen):
     global stop_flag
-    
     stop_flag = True
     process.terminate()
     process.wait()
     sys.exit(0)
 
 # test
-process =start_observation(["sample.exe"])
+process = start_observation(["sample.exe"])
 print(get())
 write(process, "1\n")
 print(get())
